@@ -14,6 +14,7 @@ const API_KEY = process.env.API_KEY;
 
 app.post("/get-title", (req, res) => {
   let { url, apiKey } = req.body;
+  console.log("URL:", url);
 
   if (apiKey !== API_KEY) {
     return res.status(403).json({ error: "Invalid API key" });
@@ -21,6 +22,7 @@ app.post("/get-title", (req, res) => {
 
   // Convert YouTube URL to oEmbed format
   if (url.includes("youtube.com") || url.includes("youtu.be")) {
+    console.log("YouTube URL");
     const videoId = url.split("v=")[1] || url.split("/").pop();
     url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
     // open yt url and get the title
@@ -39,6 +41,7 @@ app.post("/get-title", (req, res) => {
 
   // if reddit url
   if (url.includes("reddit.com")) {
+    console.log("Reddit URL");
     // doesn't work...
     // function getRedditTitle(url) {
     //   console.log("Fetching Reddit URL:", url);
@@ -66,6 +69,13 @@ app.post("/get-title", (req, res) => {
 
     res.json({ result: "Reddit" });
     return;
+  }
+
+  // if spotify url
+  if (url.includes("open.spotify.com")) {
+    console.log("Spotify URL");
+    // trim the url to get the track id remove everything after ?
+    url = url.split("?")[0];
   }
 
   const userAgent =
