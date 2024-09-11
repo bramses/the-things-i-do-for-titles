@@ -21,6 +21,8 @@ app.post('/get-title', (req, res) => {
   let titleResult = null;
 
   const checkResults = () => {
+    console.log(`ogsResult: ${ogsResult}`);
+    console.log(`titleResult: ${titleResult}`);
     if (ogsResult || titleResult) {
       if (ogsResult.error || 'ogTitle' in ogsResult.result === false) {
         console.log(`titleResult: ${titleResult}`);
