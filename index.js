@@ -16,15 +16,26 @@ app.post('/get-title', (req, res) => {
     return res.status(403).json({ error: 'Invalid API key' });
   }
 
-  const options = { url };
+  const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36';
+
+  const options = { url, fetchOptions: { headers: { 'user-agent': userAgent } } };
   let ogsResult = null;
   let titleResult = null;
 
   const checkResults = () => {
-    console.log(`ogsResult: ${JSON.stringify(ogsResult)}`);
-    console.log(`titleResult: ${titleResult}`);
+    console.log(`start ogs: ${JSON.stringify(ogsResult)}`);
+    console.log(`start title: ${titleResult}`);
     if (ogsResult || titleResult) {
       if (ogsResult.error || 'ogTitle' in ogsResult.result === false) {
+        // check if titleresult is not undefined
+        if (titleResult === undefined) {
+          // check if url contains reddit
+          if (url.includes('reddit')) {
+            titleResult = 'Reddit';
+          } else {
+            titleResult = 'Error';
+          }
+        }
         console.log(`titleResult: ${titleResult}`);
         res.json({ result: titleResult });
       } else if (titleResult === 'Unsupported browser' || titleResult === undefined) {
