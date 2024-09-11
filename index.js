@@ -30,8 +30,10 @@ app.post('/get-title', (req, res) => {
         const ogsLength = ogsResult.result.ogTitle.length;
         const titleLength = titleResult.length;
         if (ogsLength > titleLength) {
+            console.log(ogsResult);
           res.json({ result: ogsResult.result.ogTitle });
         } else {
+            console.log(titleResult);
           res.json({ result: titleResult });
         }
       }
