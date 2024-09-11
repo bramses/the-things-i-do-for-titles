@@ -28,13 +28,13 @@ app.post('/get-title', (req, res) => {
         console.log(`titleResult: ${titleResult}`);
         res.json({ result: titleResult });
       } else if (titleResult === 'Unsupported browser' || titleResult === undefined) {
-        console.log(`ogsResult: ${ogsResult}`);
+        console.log(`ogsResult: ${JSON.stringify(ogsResult)}`);
         res.json({ result: ogsResult.result.ogTitle + " - " + ogsResult.result.ogDescription });
       } else {
         const ogsLength = ogsResult.result.ogTitle.length;
         const titleLength = titleResult.length;
         if (ogsLength > titleLength) {
-            console.log(`ogResultLonger: ${ogsResult}`);
+            console.log(`ogResultLonger: ${JSON.stringify(ogsResult)}`);
           res.json({ result: ogsResult.result.ogTitle });
         } else {
             console.log(`titleResultLonger: ${titleResult}`);
