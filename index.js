@@ -23,21 +23,24 @@ app.post('/get-title', (req, res) => {
   const checkResults = () => {
     if (ogsResult || titleResult) {
       if (ogsResult.error || 'ogTitle' in ogsResult.result === false) {
+        console.log(`titleResult: ${titleResult}`);
         res.json({ result: titleResult });
       } else if (titleResult === 'Unsupported browser' || titleResult === undefined) {
+        console.log(`ogsResult: ${ogsResult}`);
         res.json({ result: ogsResult.result.ogTitle + " - " + ogsResult.result.ogDescription });
       } else {
         const ogsLength = ogsResult.result.ogTitle.length;
         const titleLength = titleResult.length;
         if (ogsLength > titleLength) {
-            console.log(ogsResult);
+            console.log(`ogResultLonger: ${ogsResult}`);
           res.json({ result: ogsResult.result.ogTitle });
         } else {
-            console.log(titleResult);
+            console.log(`titleResultLonger: ${titleResult}`);
           res.json({ result: titleResult });
         }
       }
     } else {
+        console.log(`No results`);
       res.status(500).json({ error: 'Failed to retrieve title' });
     }
   };
